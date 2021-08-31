@@ -28,6 +28,7 @@ export const featureEnvironmentsSchema = joi.object().keys({
 export const environmentSchema = joi.object().keys({
     name: nameType.allow(':global:'),
     displayName: joi.string().optional().allow(''),
+    type: joi.string(),
 });
 
 export const stateSchema = joi.object().keys({
