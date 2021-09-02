@@ -137,3 +137,17 @@ test('Removing environment not connected to project should be a noop', async () 
             'default',
         ),
     ).resolves);
+
+test('Calling validate should check if name exists', async () => {
+    await service.create({
+        name: 'testenv',
+        displayName: 'Environment for testing',
+    });
+    try {
+        await service.validateUniqueEnvName('testenv');
+    } catch (e) {
+        expect(e.toString()).toEqual(
+            'NameExistsError: Environment testenv already exists',
+        );
+    }
+});
