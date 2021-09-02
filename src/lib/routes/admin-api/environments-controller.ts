@@ -26,6 +26,7 @@ export class EnvironmentsController extends Controller {
         this.service = environmentService;
         this.get('/', this.getAll);
         this.post('/', this.createEnv, ADMIN);
+        this.post('/validate', this.validateEnvName);
         this.get('/:name', this.getEnv);
         this.put('/:name', this.updateEnv, ADMIN);
         this.delete('/:name', this.deleteEnv, ADMIN);
@@ -50,6 +51,13 @@ export class EnvironmentsController extends Controller {
         } catch (e) {
             handleErrors(res, this.logger, e);
         }
+    }
+
+    async validateEnvName(req: Request, res: Response): Promise<void> {
+        const { name } = req.body;
+
+        await this.service.validateUniqueEnvName(name);
+        res.status(200).end();
     }
 
     async getEnv(
