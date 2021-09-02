@@ -72,7 +72,7 @@ export default class EnvironmentService {
 
     async update(
         name: string,
-        env: Pick<IEnvironment, 'displayName'>,
+        env: Pick<IEnvironment, 'displayName' | 'type'>,
     ): Promise<IEnvironment> {
         const exists = await this.environmentStore.exists(name);
         if (exists) {

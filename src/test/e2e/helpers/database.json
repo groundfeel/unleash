@@ -30,7 +30,8 @@
   "environments": [
     {
       "name": ":global:",
-      "displayName": "Across all environments"
+      "displayName": "Across all environments",
+      "type": "production"
     }
   ],
   "tag_types": [

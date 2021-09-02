@@ -11,6 +11,7 @@ interface IEnvironmentsTable {
     name: string;
     display_name: string;
     created_at?: Date;
+    type: string;
 }
 
 interface IFeatureEnvironmentRow {
@@ -23,6 +24,7 @@ function mapRow(row: IEnvironmentsTable): IEnvironment {
     return {
         name: row.name,
         displayName: row.display_name,
+        type: row.type,
     };
 }
 
@@ -30,6 +32,7 @@ function mapInput(input: IEnvironment): IEnvironmentsTable {
     return {
         name: input.name,
         display_name: input.displayName,
+        type: input.type,
     };
 }
 

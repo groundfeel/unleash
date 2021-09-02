@@ -98,6 +98,7 @@ export interface IVariant {
 export interface IEnvironment {
     name: string;
     displayName: string;
+    type: string;
 }
 
 export interface IEnvironmentOverview {
