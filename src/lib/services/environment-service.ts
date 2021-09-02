@@ -58,9 +58,13 @@ export default class EnvironmentService {
     async validateUniqueEnvName(name: string): Promise<void> {
         let msg;
 
-        const env = await this.environmentStore.get(name);
-        if (env) {
-            msg = `Environment ${name} already exists`;
+        try {
+            const env = await this.environmentStore.get(name);
+            if (env) {
+                msg = `Environment ${name} already exists`;
+            }
+        } catch (e) {
+            return;
         }
 
         throw new NameExistsError(msg);
