@@ -57,6 +57,11 @@ export class EnvironmentsController extends Controller {
     async validateEnvName(req: Request, res: Response): Promise<void> {
         const { name } = req.body;
 
+        if (!name) {
+            res.status(400).end();
+            return;
+        }
+
         await this.service.validateUniqueEnvName(name);
         res.status(200).end();
     }
