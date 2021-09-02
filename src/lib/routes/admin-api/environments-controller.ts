@@ -46,6 +46,7 @@ export class EnvironmentsController extends Controller {
         res: Response,
     ): Promise<void> {
         try {
+            await this.service.validateUniqueEnvName(req.body.name);
             const environment = await this.service.create(req.body);
             res.status(201).json(environment);
         } catch (e) {
