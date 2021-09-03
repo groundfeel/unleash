@@ -95,6 +95,17 @@ export default class EnvironmentStore implements IEnvironmentStore {
         return mapRow(row);
     }
 
+    async updateProperty(
+        id: string,
+        field: string,
+        value: string | number,
+    ): Promise<void> {
+        await this.db<IEnvironmentsTable>(TABLE).update({
+            name: id,
+            [field]: value,
+        });
+    }
+
     async upsert(env: IEnvironment): Promise<IEnvironment> {
         await this.db<IEnvironmentsTable>(TABLE)
             .insert(mapInput(env))

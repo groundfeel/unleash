@@ -74,6 +74,10 @@ export interface IEnvironmentDetail extends IEnvironmentOverview {
     strategies: IStrategyConfig[];
 }
 
+export interface ISortOrder {
+    [index: string]: number;
+}
+
 export interface IFeatureEnvironment {
     environment: string;
     featureName: string;

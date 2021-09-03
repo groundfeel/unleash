@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import Controller from '../controller';
 import { IUnleashServices } from '../../types/services';
 import { IUnleashConfig } from '../../types/option';
-import { IEnvironment } from '../../types/model';
+import { IEnvironment, ISortOrder } from '../../types/model';
 import EnvironmentService from '../../services/environment-service';
 import { Logger } from '../../logger';
 import { handleErrors } from '../util';
@@ -27,6 +27,7 @@ export class EnvironmentsController extends Controller {
         this.get('/', this.getAll);
         this.post('/', this.createEnv, ADMIN);
         this.post('/validate', this.validateEnvName);
+        this.put('/sort-order', this.updateSortOrder);
         this.get('/:name', this.getEnv);
         this.put('/:name', this.updateEnv, ADMIN);
         this.delete('/:name', this.deleteEnv, ADMIN);
@@ -52,6 +53,14 @@ export class EnvironmentsController extends Controller {
         } catch (e) {
             handleErrors(res, this.logger, e);
         }
+    }
+
+    async updateSortOrder(
+        req: Request<any, any, ISortOrder, any>,
+        res: Response,
+    ): Promise<void> {
+        await this.service.updateSortOrder(req.body);
+        res.status(200).end();
     }
 
     async validateEnvName(req: Request, res: Response): Promise<void> {

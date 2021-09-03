@@ -1,7 +1,7 @@
 import { IUnleashStores } from '../types/stores';
 import { IUnleashConfig } from '../types/option';
 import { Logger } from '../logger';
-import { IEnvironment } from '../types/model';
+import { IEnvironment, ISortOrder } from '../types/model';
 import { UNIQUE_CONSTRAINT_VIOLATION } from '../error/db-error';
 import NameExistsError from '../error/name-exists-error';
 import { environmentSchema } from './state-schema';
@@ -9,6 +9,7 @@ import NotFoundError from '../error/notfound-error';
 import { IEnvironmentStore } from '../types/stores/environment-store';
 import { IFeatureStrategiesStore } from '../types/stores/feature-strategies-store';
 import { IFeatureEnvironmentStore } from '../types/stores/feature-environment-store';
+import { keys } from './project-schema';
 
 export default class EnvironmentService {
     private logger: Logger;
@@ -68,6 +69,17 @@ export default class EnvironmentService {
         }
 
         throw new NameExistsError(msg);
+    }
+
+    async updateSortOrder(sortOrder: ISortOrder): Promise<void> {
+        Object.keys(sortOrder).forEach(async (key) => {
+            const value = sortOrder[key];
+            await this.environmentStore.updateProperty(
+                key,
+                'sort_order',
+                value,
+            );
+        });
     }
 
     async update(

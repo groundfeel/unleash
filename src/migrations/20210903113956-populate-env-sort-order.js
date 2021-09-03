@@ -3,11 +3,11 @@ exports.up = function (db, cb) {
         `SELECT *
                                    FROM environments`,
         (err, results) => {
-            results.rows.forEach((environment, index) => {
+            results.rows.forEach((env, index) => {
                 db.runSql(
-                    `INSERT INTO environments (sort_order) VALUES (${
+                    `INSERT INTO environments(sort_order) VALUES (${
                         index + 1
-                    }) WHERE name = '${environment.name}';`,
+                    }) ON CONFLICT DO NOTHING;`,
                 );
             });
             cb();

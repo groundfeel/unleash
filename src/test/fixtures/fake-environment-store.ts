@@ -31,6 +31,18 @@ export default class FakeEnvironmentStore implements IEnvironmentStore {
         return Promise.resolve(env);
     }
 
+    async updateProperty(
+        id: string,
+        field: string,
+        value: string | number,
+    ): Promise<void> {
+        const environment = this.environments.find(
+            (env: IEnvironment) => env.name === id,
+        );
+        environment[field] = value;
+        return Promise.resolve();
+    }
+
     async connectProject(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         environment: string,
