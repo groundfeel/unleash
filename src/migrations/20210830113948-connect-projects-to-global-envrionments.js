@@ -1,13 +1,12 @@
 exports.up = function (db, cb) {
     db.runSql(
-        `SELECT *
-                                   FROM environments`,
+        `SELECT id
+                                   FROM projects`,
         (err, results) => {
-            results.rows.forEach((environment, index) => {
+            results.rows.forEach((project) => {
                 db.runSql(
-                    `INSERT INTO environments (sort_order) VALUES (${
-                        index + 1
-                    }) WHERE name = '${environment.name}';`,
+                    `INSERT INTO project_environments(project_id, environment_name) VALUES (?, ':global:') ON CONFLICT DO NOTHING;`,
+                    [project.id],
                 );
             });
             cb();
@@ -16,5 +15,5 @@ exports.up = function (db, cb) {
 };
 
 exports.down = function (db, cb) {
-    db.runSql('DELETE FROM environments', cb);
+    db.runSql('DELETE FROM project_environments', cb);
 };
