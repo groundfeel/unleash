@@ -1,7 +1,7 @@
 exports.up = function (db, cb) {
     db.runSql(
         `
-    ALTER TABLE environments ADD COLUMN sort_order integer, ADD COLUMN type text;
+    ALTER TABLE environments ADD COLUMN sort_order integer DEFAULT 9999, ADD COLUMN type text;
   `,
         cb,
     );
