@@ -4,7 +4,7 @@ import { Logger } from '../logger';
 import { IEnvironment, ISortOrder } from '../types/model';
 import { UNIQUE_CONSTRAINT_VIOLATION } from '../error/db-error';
 import NameExistsError from '../error/name-exists-error';
-import { environmentSchema } from './state-schema';
+import { environmentSchema, sortOrderSchema } from './state-schema';
 import NotFoundError from '../error/notfound-error';
 import { IEnvironmentStore } from '../types/stores/environment-store';
 import { IFeatureStrategiesStore } from '../types/stores/feature-strategies-store';
@@ -72,6 +72,7 @@ export default class EnvironmentService {
     }
 
     async updateSortOrder(sortOrder: ISortOrder): Promise<void> {
+        await sortOrderSchema.validateAsync(sortOrder);
         Object.keys(sortOrder).forEach(async (key) => {
             const value = sortOrder[key];
             await this.environmentStore.updateProperty(

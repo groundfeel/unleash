@@ -31,6 +31,8 @@ export const environmentSchema = joi.object().keys({
     type: joi.string(),
 });
 
+export const sortOrderSchema = joi.object().pattern(/^/, joi.number());
+
 export const stateSchema = joi.object().keys({
     version: joi.number(),
     features: joi.array().optional().items(featureSchema),
