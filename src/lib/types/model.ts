@@ -103,6 +103,7 @@ export interface IEnvironment {
     name: string;
     displayName: string;
     type: string;
+    sortOrder: number;
 }
 
 export interface IEnvironmentOverview {

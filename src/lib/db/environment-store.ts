@@ -12,6 +12,7 @@ interface IEnvironmentsTable {
     display_name: string;
     created_at?: Date;
     type: string;
+    sort_order: number;
 }
 
 interface IFeatureEnvironmentRow {
@@ -25,6 +26,7 @@ function mapRow(row: IEnvironmentsTable): IEnvironment {
         name: row.name,
         displayName: row.display_name,
         type: row.type,
+        sortOrder: row.sort_order,
     };
 }
 
@@ -33,6 +35,7 @@ function mapInput(input: IEnvironment): IEnvironmentsTable {
         name: input.name,
         display_name: input.displayName,
         type: input.type,
+        sort_order: input.sortOrder,
     };
 }
 
@@ -70,7 +73,9 @@ export default class EnvironmentStore implements IEnvironmentStore {
     }
 
     async getAll(): Promise<IEnvironment[]> {
-        const rows = await this.db<IEnvironmentsTable>(TABLE).select('*');
+        const rows = await this.db<IEnvironmentsTable>(TABLE)
+            .select('*')
+            .orderBy('sort_order', 'created_at');
         return rows.map(mapRow);
     }
 
@@ -100,10 +105,11 @@ export default class EnvironmentStore implements IEnvironmentStore {
         field: string,
         value: string | number,
     ): Promise<void> {
-        await this.db<IEnvironmentsTable>(TABLE).update({
-            name: id,
-            [field]: value,
-        });
+        await this.db<IEnvironmentsTable>(TABLE)
+            .update({
+                [field]: value,
+            })
+            .where({ name: id });
     }
 
     async upsert(env: IEnvironment): Promise<IEnvironment> {

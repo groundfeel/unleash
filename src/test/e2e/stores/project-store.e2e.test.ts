@@ -125,6 +125,7 @@ test('should add environment to project', async () => {
         name: 'test',
         displayName: 'Test Env',
         type: 'production',
+        sortOrder: 1,
     });
 
     await projectStore.create(project);

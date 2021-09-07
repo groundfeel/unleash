@@ -31,7 +31,8 @@
     {
       "name": ":global:",
       "displayName": "Across all environments",
-      "type": "production"
+      "type": "production",
+      "sortOrder": 1
     }
   ],
   "tag_types": [
