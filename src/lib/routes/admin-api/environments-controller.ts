@@ -27,12 +27,12 @@ export class EnvironmentsController extends Controller {
         this.get('/', this.getAll);
         this.post('/', this.createEnv, ADMIN);
         this.post('/validate', this.validateEnvName);
-        this.put('/sort-order', this.updateSortOrder);
+        this.put('/sort-order', this.updateSortOrder, ADMIN);
         this.get('/:name', this.getEnv);
         this.put('/:name', this.updateEnv, ADMIN);
         this.delete('/:name', this.deleteEnv, ADMIN);
-        this.post('/:name/on', this.toggleEnvironmentOn);
-        this.post('/:name/off', this.toggleEnvironmentOff);
+        this.post('/:name/on', this.toggleEnvironmentOn, ADMIN);
+        this.post('/:name/off', this.toggleEnvironmentOff, ADMIN);
     }
 
     async getAll(req: Request, res: Response): Promise<void> {

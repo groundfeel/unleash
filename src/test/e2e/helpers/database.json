@@ -32,7 +32,8 @@
       "name": ":global:",
       "displayName": "Across all environments",
       "type": "production",
-      "sortOrder": 1
+      "sortOrder": 1,
+      "enabled": true
     }
   ],
   "tag_types": [

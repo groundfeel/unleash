@@ -25,6 +25,7 @@ test('Can create and get environment', async () => {
         displayName: 'Environment for testing',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
 
     const retrieved = await service.get('testenv');
@@ -37,6 +38,7 @@ test('Can delete environment', async () => {
         displayName: 'Environment for testing',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
     await service.delete('testenv');
     return expect(async () => service.get('testenv')).rejects.toThrow(
@@ -50,6 +52,7 @@ test('Can get all', async () => {
         displayName: 'Environment for testing',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
 
     const environments = await service.getAll();
@@ -62,6 +65,7 @@ test('Can update display name', async () => {
         displayName: 'Environment for testing',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
 
     await service.update('testenv', {
@@ -79,6 +83,7 @@ test('Can connect environment to project', async () => {
         displayName: '',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
     await stores.featureToggleStore.createFeature('default', {
         name: 'test-connection',
@@ -109,6 +114,7 @@ test('Can remove environment from project', async () => {
         displayName: '',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
     await stores.featureToggleStore.createFeature('default', {
         name: 'removal-test',
@@ -143,6 +149,7 @@ test('Adding same environment twice should throw a NameExistsError', async () =>
         displayName: '',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
     await service.removeEnvironmentFromProject('test-connection', 'default');
     await service.removeEnvironmentFromProject('removal-test', 'default');
@@ -171,6 +178,7 @@ test('Calling validate should check if name exists', async () => {
         displayName: 'Environment for testing',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
     });
     try {
         await service.validateUniqueEnvName('testenv');

@@ -104,6 +104,7 @@ export interface IEnvironment {
     displayName: string;
     type: string;
     sortOrder: number;
+    enabled: boolean;
 }
 
 export interface IEnvironmentOverview {

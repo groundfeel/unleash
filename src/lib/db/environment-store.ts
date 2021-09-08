@@ -13,6 +13,7 @@ interface IEnvironmentsTable {
     created_at?: Date;
     type: string;
     sort_order: number;
+    enabled: boolean;
 }
 
 interface IFeatureEnvironmentRow {
@@ -27,6 +28,7 @@ function mapRow(row: IEnvironmentsTable): IEnvironment {
         displayName: row.display_name,
         type: row.type,
         sortOrder: row.sort_order,
+        enabled: row.enabled,
     };
 }
 
@@ -36,6 +38,7 @@ function mapInput(input: IEnvironment): IEnvironmentsTable {
         display_name: input.displayName,
         type: input.type,
         sort_order: input.sortOrder,
+        enabled: input.enabled,
     };
 }
 
