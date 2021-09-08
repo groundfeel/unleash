@@ -31,6 +31,8 @@ export class EnvironmentsController extends Controller {
         this.get('/:name', this.getEnv);
         this.put('/:name', this.updateEnv, ADMIN);
         this.delete('/:name', this.deleteEnv, ADMIN);
+        this.post('/:name/on', this.toggleEnvironmentOn);
+        this.post('/:name/off', this.toggleEnvironmentOff);
     }
 
     async getAll(req: Request, res: Response): Promise<void> {
@@ -61,6 +63,24 @@ export class EnvironmentsController extends Controller {
     ): Promise<void> {
         await this.service.updateSortOrder(req.body);
         res.status(200).end();
+    }
+
+    async toggleEnvironmentOn(
+        req: Request<any, any, any, any>,
+        res: Response,
+    ): Promise<void> {
+        const { name } = req.body;
+        await this.service.toggleEnvironment(name, true);
+        res.status(204).end();
+    }
+
+    async toggleEnvironmentOff(
+        req: Request<any, any, any, any>,
+        res: Response,
+    ): Promise<void> {
+        const { name } = req.body;
+        await this.service.toggleEnvironment(name, false);
+        res.status(204).end();
     }
 
     async validateEnvName(req: Request, res: Response): Promise<void> {

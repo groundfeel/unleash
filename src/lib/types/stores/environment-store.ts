@@ -7,7 +7,7 @@ export interface IEnvironmentStore extends Store<IEnvironment, string> {
     updateProperty(
         id: string,
         field: string,
-        value: string | number,
+        value: string | number | boolean,
     ): Promise<void>;
     connectProject(environment: string, projectId: string): Promise<void>;
     connectFeatures(environment: string, projectId: string): Promise<void>;
