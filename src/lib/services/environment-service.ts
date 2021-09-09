@@ -1,10 +1,14 @@
 import { IUnleashStores } from '../types/stores';
 import { IUnleashConfig } from '../types/option';
 import { Logger } from '../logger';
-import { IEnvironment, ISortOrder } from '../types/model';
+import { IEnvironment, IEnvironmentCreate, ISortOrder } from '../types/model';
 import { UNIQUE_CONSTRAINT_VIOLATION } from '../error/db-error';
 import NameExistsError from '../error/name-exists-error';
-import { environmentSchema, sortOrderSchema } from './state-schema';
+import {
+    environmentSchema,
+    sortOrderSchema,
+    updateEnvironmentSchema,
+} from './state-schema';
 import NotFoundError from '../error/notfound-error';
 import { IEnvironmentStore } from '../types/stores/environment-store';
 import { IFeatureStrategiesStore } from '../types/stores/feature-strategies-store';
@@ -50,9 +54,9 @@ export default class EnvironmentService {
         return this.environmentStore.delete(name);
     }
 
-    async create(env: IEnvironment): Promise<IEnvironment> {
+    async create(env: IEnvironmentCreate): Promise<IEnvironment> {
         await environmentSchema.validateAsync(env);
-        return this.environmentStore.upsert(env);
+        return this.environmentStore.create(env);
     }
 
     async validateUniqueEnvName(name: string): Promise<void> {
@@ -88,14 +92,16 @@ export default class EnvironmentService {
 
     async update(
         name: string,
-        env: Pick<
-            IEnvironment,
-            'displayName' | 'type' | 'sortOrder' | 'enabled' | 'protected'
-        >,
+        env: Omit<IEnvironment, 'name' | 'enabled' | 'protected'>,
     ): Promise<IEnvironment> {
+        await updateEnvironmentSchema.validateAsync(env);
         const exists = await this.environmentStore.exists(name);
+
         if (exists) {
-            return this.environmentStore.upsert({ ...env, name });
+            return this.environmentStore.update(
+                { ...env, protected: false },
+                name,
+            );
         }
         throw new NotFoundError(`Could not find environment ${name}`);
     }

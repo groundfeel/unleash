@@ -24,9 +24,6 @@ test('Can create and get environment', async () => {
         name: 'testenv',
         displayName: 'Environment for testing',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
 
     const retrieved = await service.get('testenv');
@@ -35,12 +32,9 @@ test('Can create and get environment', async () => {
 
 test('Can delete environment', async () => {
     await service.create({
-        name: 'testenv',
+        name: 'testenv1',
         displayName: 'Environment for testing',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await service.delete('testenv');
     return expect(async () => service.get('testenv')).rejects.toThrow(
@@ -50,36 +44,28 @@ test('Can delete environment', async () => {
 
 test('Can get all', async () => {
     await service.create({
-        name: 'testenv',
+        name: 'testenv2',
         displayName: 'Environment for testing',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
 
     const environments = await service.getAll();
-    expect(environments).toHaveLength(2); // the one we created plus ':global:'
+    expect(environments).toHaveLength(3); // the one we created plus ':global:'
 });
 
 test('Can update display name', async () => {
     await service.create({
-        name: 'testenv',
+        name: 'testenv3',
         displayName: 'Environment for testing',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
 
-    await service.update('testenv', {
+    await service.update('testenv3', {
         displayName: 'Different name',
         type: 'production',
         sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
-    const updated = await service.get('testenv');
+    const updated = await service.get('testenv3');
     expect(updated.displayName).toEqual('Different name');
 });
 
@@ -88,9 +74,6 @@ test('Can connect environment to project', async () => {
         name: 'test-connection',
         displayName: '',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await stores.featureToggleStore.createFeature('default', {
         name: 'test-connection',
@@ -120,9 +103,6 @@ test('Can remove environment from project', async () => {
         name: 'removal-test',
         displayName: '',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await stores.featureToggleStore.createFeature('default', {
         name: 'removal-test',
@@ -156,9 +136,6 @@ test('Adding same environment twice should throw a NameExistsError', async () =>
         name: 'uniqueness-test',
         displayName: '',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await service.removeEnvironmentFromProject('test-connection', 'default');
     await service.removeEnvironmentFromProject('removal-test', 'default');
@@ -183,12 +160,9 @@ test('Removing environment not connected to project should be a noop', async () 
 
 test('Calling validate should check if name exists', async () => {
     await service.create({
-        name: 'testenv',
+        name: 'testenv5',
         displayName: 'Environment for testing',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     try {
         await service.validateUniqueEnvName('testenv');

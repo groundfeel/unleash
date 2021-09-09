@@ -108,6 +108,12 @@ export interface IEnvironment {
     protected: boolean;
 }
 
+export interface IEnvironmentCreate {
+    name: string;
+    displayName: string;
+    type: string;
+}
+
 export interface IEnvironmentOverview {
     name: string;
     displayName: string;

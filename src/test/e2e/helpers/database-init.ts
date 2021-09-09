@@ -56,7 +56,7 @@ async function connectProject(store: EnvironmentStore): Promise<void> {
 }
 
 async function createEnvironments(store: EnvironmentStore): Promise<void> {
-    await Promise.all(dbState.environments.map(async (e) => store.upsert(e)));
+    await Promise.all(dbState.environments.map(async (e) => store.create(e)));
 }
 
 async function setupDatabase(stores) {

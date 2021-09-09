@@ -1,5 +1,4 @@
 # Changelog
-
 # 4.0.4
 
 - fix: userFeedback should not be allowed to throw

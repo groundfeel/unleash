@@ -1,9 +1,13 @@
-import { IEnvironment } from '../model';
+import { IEnvironment, IEnvironmentCreate } from '../model';
 import { Store } from './store';
 
 export interface IEnvironmentStore extends Store<IEnvironment, string> {
     exists(name: string): Promise<boolean>;
-    upsert(env: IEnvironment): Promise<IEnvironment>;
+    create(env: IEnvironmentCreate): Promise<IEnvironment>;
+    update(
+        env: Pick<IEnvironment, 'displayName' | 'type' | 'protected'>,
+        name: string,
+    ): Promise<IEnvironment>;
     updateProperty(
         id: string,
         field: string,

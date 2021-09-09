@@ -3,9 +3,10 @@ import { Knex } from 'knex';
 import { Logger, LogProvider } from '../logger';
 import metricsHelper from '../util/metrics-helper';
 import { DB_TIME } from '../metric-events';
-import { IEnvironment } from '../types/model';
+import { IEnvironment, IEnvironmentCreate } from '../types/model';
 import NotFoundError from '../error/notfound-error';
 import { IEnvironmentStore } from '../types/stores/environment-store';
+import { snakeCaseKeys } from '../util/snakeCase';
 
 interface IEnvironmentsTable {
     name: string;
@@ -16,6 +17,16 @@ interface IEnvironmentsTable {
     enabled: boolean;
     protected: boolean;
 }
+
+const COLUMNS = [
+    'type',
+    'display_name',
+    'name',
+    'created_at',
+    'sort_order',
+    'enabled',
+    'protected',
+];
 
 interface IFeatureEnvironmentRow {
     environment: string;
@@ -126,12 +137,24 @@ export default class EnvironmentStore implements IEnvironmentStore {
             .where({ name: id });
     }
 
-    async upsert(env: IEnvironment): Promise<IEnvironment> {
-        await this.db<IEnvironmentsTable>(TABLE)
-            .insert(mapInput(env))
-            .onConflict('name')
-            .merge();
-        return env;
+    async update(
+        env: Pick<IEnvironment, 'displayName' | 'type' | 'protected'>,
+        name: string,
+    ): Promise<IEnvironment> {
+        const updatedEnv = await this.db<IEnvironmentsTable>(TABLE)
+            .update(snakeCaseKeys(env))
+            .where({ name, protected: false })
+            .returning<IEnvironmentsTable>(COLUMNS);
+
+        return mapRow(updatedEnv[0]);
+    }
+
+    async create(env: IEnvironmentCreate): Promise<IEnvironment> {
+        const row = await this.db<IEnvironmentsTable>(TABLE)
+            .insert(snakeCaseKeys(env))
+            .returning<IEnvironmentsTable>(COLUMNS);
+
+        return mapRow(row[0]);
     }
 
     async connectProject(
