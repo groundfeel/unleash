@@ -9,8 +9,6 @@ import NotFoundError from '../error/notfound-error';
 import { IEnvironmentStore } from '../types/stores/environment-store';
 import { IFeatureStrategiesStore } from '../types/stores/feature-strategies-store';
 import { IFeatureEnvironmentStore } from '../types/stores/feature-environment-store';
-import { keys } from './project-schema';
-import { runInThisContext } from 'vm';
 
 export default class EnvironmentService {
     private logger: Logger;
