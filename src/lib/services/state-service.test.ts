@@ -479,21 +479,15 @@ test('exporting to new format works', async () => {
         name: 'extra',
         description: 'No surprises here',
     });
-    await stores.environmentStore.upsert({
+    await stores.environmentStore.create({
         name: 'dev',
         displayName: 'Development',
         type: 'development',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
-    await stores.environmentStore.upsert({
+    await stores.environmentStore.create({
         name: 'prod',
         displayName: 'Production',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await stores.featureToggleStore.createFeature('fancy', {
         name: 'Some-feature',
@@ -527,21 +521,15 @@ test('featureStrategies can keep existing', async () => {
         name: 'extra',
         description: 'No surprises here',
     });
-    await stores.environmentStore.upsert({
+    await stores.environmentStore.create({
         name: 'dev',
         displayName: 'Development',
         type: 'development',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
-    await stores.environmentStore.upsert({
+    await stores.environmentStore.create({
         name: 'prod',
         displayName: 'Production',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await stores.featureToggleStore.createFeature('fancy', {
         name: 'Some-feature',
@@ -581,21 +569,15 @@ test('featureStrategies should not keep existing if dropBeforeImport', async () 
         name: 'extra',
         description: 'No surprises here',
     });
-    await stores.environmentStore.upsert({
+    await stores.environmentStore.create({
         name: 'dev',
         displayName: 'Development',
         type: 'development',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
-    await stores.environmentStore.upsert({
+    await stores.environmentStore.create({
         name: 'prod',
         displayName: 'Production',
         type: 'production',
-        sortOrder: 1,
-        enabled: true,
-        protected: false,
     });
     await stores.featureToggleStore.createFeature('fancy', {
         name: 'Some-feature',

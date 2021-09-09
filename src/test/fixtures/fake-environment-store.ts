@@ -23,12 +23,28 @@ export default class FakeEnvironmentStore implements IEnvironmentStore {
         );
     }
 
-    async upsert(env: IEnvironment): Promise<IEnvironment> {
+    async create(env: IEnvironment): Promise<IEnvironment> {
         this.environments = this.environments.filter(
             (e) => e.name !== env.name,
         );
         this.environments.push(env);
         return Promise.resolve(env);
+    }
+
+    async update(
+        env: Pick<IEnvironment, 'displayName' | 'type' | 'protected'>,
+        name: string,
+    ): Promise<IEnvironment> {
+        const found = this.environments.find(
+            (en: IEnvironment) => en.name === name,
+        );
+        const idx = this.environments.findIndex(
+            (en: IEnvironment) => en.name === name,
+        );
+        const updated = { ...found, env };
+
+        this.environments[idx] = updated;
+        return Promise.resolve(updated);
     }
 
     async updateSortOrder(id: string, value: number): Promise<void> {
