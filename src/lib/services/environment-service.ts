@@ -76,21 +76,24 @@ export default class EnvironmentService {
         await sortOrderSchema.validateAsync(sortOrder);
         Object.keys(sortOrder).forEach(async (key) => {
             const value = sortOrder[key];
-            await this.environmentStore.updateProperty(
-                key,
-                'sort_order',
-                value,
-            );
+            await this.environmentStore.updateSortOrder(key, value);
         });
     }
 
     async toggleEnvironment(name: string, value: boolean): Promise<void> {
-        await this.environmentStore.updateProperty(name, 'enabled', value);
+        const exists = await this.environmentStore.exists(name);
+        if (exists) {
+            return this.environmentStore.updateProperty(name, 'enabled', value);
+        }
+        throw new NotFoundError(`Could not find environment ${name}`);
     }
 
     async update(
         name: string,
-        env: Pick<IEnvironment, 'displayName' | 'type' | 'sortOrder'>,
+        env: Pick<
+            IEnvironment,
+            'displayName' | 'type' | 'sortOrder' | 'enabled' | 'protected'
+        >,
     ): Promise<IEnvironment> {
         const exists = await this.environmentStore.exists(name);
         if (exists) {

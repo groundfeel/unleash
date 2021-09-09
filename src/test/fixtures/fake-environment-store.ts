@@ -31,6 +31,14 @@ export default class FakeEnvironmentStore implements IEnvironmentStore {
         return Promise.resolve(env);
     }
 
+    async updateSortOrder(id: string, value: number): Promise<void> {
+        const environment = this.environments.find(
+            (env: IEnvironment) => env.name === id,
+        );
+        environment.sortOrder = value;
+        return Promise.resolve();
+    }
+
     async updateProperty(
         id: string,
         field: string,

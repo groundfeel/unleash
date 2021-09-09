@@ -9,6 +9,7 @@ export interface IEnvironmentStore extends Store<IEnvironment, string> {
         field: string,
         value: string | number | boolean,
     ): Promise<void>;
+    updateSortOrder(id: string, value: number);
     connectProject(environment: string, projectId: string): Promise<void>;
     connectFeatures(environment: string, projectId: string): Promise<void>;
     disconnectProjectFromEnv(

@@ -66,19 +66,19 @@ export class EnvironmentsController extends Controller {
     }
 
     async toggleEnvironmentOn(
-        req: Request<any, any, any, any>,
+        req: Request<EnvironmentParam, any, any, any>,
         res: Response,
     ): Promise<void> {
-        const { name } = req.body;
+        const { name } = req.params;
         await this.service.toggleEnvironment(name, true);
         res.status(204).end();
     }
 
     async toggleEnvironmentOff(
-        req: Request<any, any, any, any>,
+        req: Request<EnvironmentParam, any, any, any>,
         res: Response,
     ): Promise<void> {
-        const { name } = req.body;
+        const { name } = req.params;
         await this.service.toggleEnvironment(name, false);
         res.status(204).end();
     }

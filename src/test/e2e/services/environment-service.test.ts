@@ -26,6 +26,7 @@ test('Can create and get environment', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
 
     const retrieved = await service.get('testenv');
@@ -39,6 +40,7 @@ test('Can delete environment', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
     await service.delete('testenv');
     return expect(async () => service.get('testenv')).rejects.toThrow(
@@ -53,6 +55,7 @@ test('Can get all', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
 
     const environments = await service.getAll();
@@ -66,12 +69,15 @@ test('Can update display name', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
 
     await service.update('testenv', {
         displayName: 'Different name',
         type: 'production',
         sortOrder: 1,
+        enabled: true,
+        protected: false,
     });
     const updated = await service.get('testenv');
     expect(updated.displayName).toEqual('Different name');
@@ -84,6 +90,7 @@ test('Can connect environment to project', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
     await stores.featureToggleStore.createFeature('default', {
         name: 'test-connection',
@@ -115,6 +122,7 @@ test('Can remove environment from project', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
     await stores.featureToggleStore.createFeature('default', {
         name: 'removal-test',
@@ -150,6 +158,7 @@ test('Adding same environment twice should throw a NameExistsError', async () =>
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
     await service.removeEnvironmentFromProject('test-connection', 'default');
     await service.removeEnvironmentFromProject('removal-test', 'default');
@@ -179,6 +188,7 @@ test('Calling validate should check if name exists', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
     try {
         await service.validateUniqueEnvName('testenv');

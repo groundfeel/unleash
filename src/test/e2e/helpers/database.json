@@ -33,7 +33,8 @@
       "displayName": "Across all environments",
       "type": "production",
       "sortOrder": 1,
-      "enabled": true
+      "enabled": true,
+      "protected": true
     }
   ],
   "tag_types": [

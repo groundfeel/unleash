@@ -127,6 +127,7 @@ test('should add environment to project', async () => {
         type: 'production',
         sortOrder: 1,
         enabled: true,
+        protected: false,
     });
 
     await projectStore.create(project);

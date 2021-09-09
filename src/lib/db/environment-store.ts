@@ -14,6 +14,7 @@ interface IEnvironmentsTable {
     type: string;
     sort_order: number;
     enabled: boolean;
+    protected: boolean;
 }
 
 interface IFeatureEnvironmentRow {
@@ -29,6 +30,7 @@ function mapRow(row: IEnvironmentsTable): IEnvironment {
         type: row.type,
         sortOrder: row.sort_order,
         enabled: row.enabled,
+        protected: row.protected,
     };
 }
 
@@ -39,6 +41,7 @@ function mapInput(input: IEnvironment): IEnvironmentsTable {
         type: input.type,
         sort_order: input.sortOrder,
         enabled: input.enabled,
+        protected: input.protected,
     };
 }
 
@@ -112,6 +115,14 @@ export default class EnvironmentStore implements IEnvironmentStore {
             .update({
                 [field]: value,
             })
+            .where({ name: id, protected: false });
+    }
+
+    async updateSortOrder(id: string, value: number): Promise<void> {
+        await this.db<IEnvironmentsTable>(TABLE)
+            .update({
+                sort_order: value,
+            })
             .where({ name: id });
     }
 
@@ -156,7 +167,7 @@ export default class EnvironmentStore implements IEnvironmentStore {
     }
 
     async delete(name: string): Promise<void> {
-        await this.db(TABLE).where({ name }).del();
+        await this.db(TABLE).where({ name, protected: false }).del();
     }
 
     async disconnectProjectFromEnv(
