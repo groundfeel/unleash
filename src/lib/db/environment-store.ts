@@ -45,17 +45,6 @@ function mapRow(row: IEnvironmentsTable): IEnvironment {
     };
 }
 
-function mapInput(input: IEnvironment): IEnvironmentsTable {
-    return {
-        name: input.name,
-        display_name: input.displayName,
-        type: input.type,
-        sort_order: input.sortOrder,
-        enabled: input.enabled,
-        protected: input.protected,
-    };
-}
-
 const TABLE = 'environments';
 
 export default class EnvironmentStore implements IEnvironmentStore {
