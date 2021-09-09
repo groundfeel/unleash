@@ -112,7 +112,11 @@ test('Project overview includes environment connected to feature', async () => {
         });
     await app.request
         .post('/api/admin/environments')
-        .send({ name: 'project-overview', displayName: 'Project Overview' })
+        .send({
+            name: 'project-overview',
+            displayName: 'Project Overview',
+            type: 'production',
+        })
         .set('Content-Type', 'application/json')
         .expect(201);
     await app.request
@@ -146,7 +150,11 @@ test('Disconnecting environment from project, removes environment from features 
         });
     await app.request
         .post('/api/admin/environments')
-        .send({ name: 'dis-project-overview', displayName: 'Project Overview' })
+        .send({
+            name: 'dis-project-overview',
+            displayName: 'Project Overview',
+            type: 'production',
+        })
         .set('Content-Type', 'application/json')
         .expect(201);
     await app.request
@@ -176,6 +184,7 @@ test('Can enable/disable environment for feature', async () => {
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
@@ -305,6 +314,7 @@ test('Can get environment info for feature toggle', async () => {
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
@@ -377,6 +387,7 @@ test('Can add strategy to feature toggle', async () => {
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
@@ -418,6 +429,7 @@ test('Can get strategies for feature and environment', async () => {
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
@@ -476,6 +488,7 @@ test('Can update a strategy based on id', async () => {
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
@@ -532,6 +545,7 @@ test('Trying to update a non existing feature strategy should yield 404', async 
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
@@ -563,6 +577,7 @@ test('Trying to get a non existing feature strategy should yield 404', async () 
         .send({
             name: envName,
             displayName: 'Enable feature for environment',
+            type: 'production',
         })
         .set('Content-Type', 'application/json')
         .expect(201);
